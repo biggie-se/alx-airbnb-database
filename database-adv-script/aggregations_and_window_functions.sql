@@ -4,7 +4,7 @@ using the COUNT function and GROUP BY clause. */
 SELECT u.user_id, u.first_name, u.last_name, (
     SELECT COUNT(b.booking_id)
     FROM Booking b
-    WHERE b.user_id = u.user_id AND b.status = `confirmed`
+    WHERE b.user_id = u.user_id AND b.status = 'confirmed'
 ) AS confirmed_bookings
 FROM User u
 GROUP BY confirmed_bookings;
