@@ -13,11 +13,12 @@ WHERE (
 SELECT u.*, (
     SELECT COUNT(b.status)
     FROM Booking b
-    WHERE b.user_id = u.user_id AND b.status = `confirmed`
-) AS bookings_confirmed
+    WHERE b.user_id = u.user_id AND b.status = 'confirmed'
+) AS confirmed_bookings
 FROM User u
 WHERE (
     SELECT COUNT(b.status)
     FROM Booking b
-    WHERE b.user_id = u.user_id AND b.status = `confirmed` 
-) > 3.0;
+    WHERE b.user_id = u.user_id AND b.status = 'confirmed' 
+) > 3;
+ORDER BY confirmed_bookings DESC
