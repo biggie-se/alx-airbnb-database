@@ -46,4 +46,4 @@ INNER JOIN Property p
     ON bb.property_id = p.property_id
 WHERE b.status = 'confirmed'
 AND pa.payment_date >= '2025-01-01'
-ORDER BY b.start_date DESC;;
+ORDER BY b.start_date DESC;
