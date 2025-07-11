@@ -1,29 +1,35 @@
 /* Write a query to find the total number of bookings made by each user, 
 using the COUNT function and GROUP BY clause. */
 
-SELECT u.user_id, u.first_name, u.last_name, (
-    SELECT COUNT(b.booking_id)
-    FROM Booking b
-    WHERE b.user_id = u.user_id AND b.status = 'confirmed'
-) AS confirmed_bookings
+SELECT u.user_id, u.first_name, u.last_name, COUNT(b.booking_id) AS total_bookings
 FROM User u
-GROUP BY confirmed_bookings;
+LEFT JOIN Booking b ON u.user_id = b.user_id
+GROUP BY user_id, u.first_name, u.last_name;
 
 /* Use a window function (ROW_NUMBER, RANK) to rank properties 
 based on the total number of bookings they have received.*/
 
+WITH property_booking_counts AS (
+    SELECT 
+        p.property_id,
+        p.name,
+        p.location,
+        COUNT(b.booking_id) AS property_bookings
+    FROM Property p
+    LEFT JOIN Booking b ON b.property_id = p.property_id
+    GROUP BY p.property_id, p.name, p.location
+)
+
 SELECT 
-    p.property_id, 
-    p.name, 
-    p.location, 
-    COUNT(b.booking_id) AS property_bookings,
-    RANK() OVER(
-        ORDER BY COUNT(b.booking_id) DESC
+    property_id,
+    name,
+    location,
+    property_bookings,
+    RANK() OVER (
+        ORDER BY property_bookings DESC
     ) AS overall_rank,
-    RANK() OVER(
-        PARTITION BY p.location 
-        ORDER BY COUNT(b.booking_id) DESC
-        ) AS location_rank
-FROM Property p
-JOIN Booking b ON b.property_id = p.property_id
-GROUP BY p.property_id, p.name, p.location;
+    RANK() OVER (
+        PARTITION BY location
+        ORDER BY property_bookings DESC
+    ) AS location_rank
+FROM property_booking_counts;
