@@ -28,7 +28,7 @@ SELECT
     RANK() OVER (
         ORDER BY property_bookings DESC
     ) AS overall_rank,
-    RANK() OVER (
+    ROW_NUMBER() OVER (
         PARTITION BY location
         ORDER BY property_bookings DESC
     ) AS location_rank
