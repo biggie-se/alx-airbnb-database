@@ -1,4 +1,12 @@
----Use SQL commands like SHOW PROFILE or EXPLAIN ANALYZE to monitor the performance of a few of your frequently used queries.
+<h3><b>Objective: Continuously monitor and refine database performance by analyzing query execution plans and making schema adjustments.</b></h3>
+
+<b>Instructions:</b>
+
+- Use SQL commands like SHOW PROFILE or EXPLAIN ANALYZE to monitor the performance of a few of your frequently used queries.
+
+- Identify any bottlenecks and suggest changes (e.g., new indexes, schema adjustments).
+
+- Implement the changes and report the improvements.*/
 
 # First, enable profiling for the session
 SET profiling = 1;
